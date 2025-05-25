@@ -1,0 +1,42 @@
+# Visual Studio / VS Code files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet Packages
+*.nupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Other common files to ignore
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Virtual environment files
+.env
+.venv
+venv/
+
+# git files
+.git/
