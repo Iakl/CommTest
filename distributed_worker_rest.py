@@ -41,6 +41,7 @@ class DistributedWorker:
         """Handle shutdown signals gracefully"""
         logging.info(f"Node {self.node_id}: Received shutdown signal")
         self.shutdown()
+        sys.exit(0)
 
     def _is_port_available(self, host, port):
         """Check if a port is available"""
@@ -207,7 +208,9 @@ class DistributedWorker:
         logging.info(
             f"Starting node {self.node_id} on {self.host}:{self.port}")
         try:
-            app.run(host=self.host, port=self.port, debug=False, threaded=True)
+            # Disable Flask's reloader and set threaded=True
+            app.run(host=self.host, port=self.port, debug=False,
+                    threaded=True, use_reloader=False)
         except Exception as e:
             logging.error(f"Failed to start Flask server: {e}")
             return False
@@ -318,6 +321,29 @@ def handle_message():
             'timestamp': time.time()
         })
 
+    elif message_type == 'custom_message':
+        # Handle custom messages
+        message_content = message_data.get('message', '')
+        target_node = message_data.get('target_node', '')
+
+        # Print to console
+        print(f"\n🔔 CUSTOM MESSAGE RECEIVED 🔔")
+        print(f"From: {from_node}")
+        print(f"To: {target_node}")
+        print(f"Message: {message_content}")
+        print(f"Timestamp: {timestamp}")
+        print("-" * 40)
+
+        # Log it too
+        logging.info(f"Custom message from {from_node}: {message_content}")
+
+        return jsonify({
+            'status': 'message_received',
+            'from_node': from_node,
+            'to_node': worker.node_id,
+            'message': message_content
+        })
+
     return jsonify({'status': 'unknown_message_type'}), 400
 
 
@@ -413,8 +439,12 @@ if __name__ == "__main__":
     try:
         worker.start()
     except KeyboardInterrupt:
+        print("\n🛑 Keyboard interrupt received")
         worker.shutdown()
+        print("✅ Node stopped successfully")
+        sys.exit(0)
     except Exception as e:
         logging.error(f"Fatal error: {e}")
         if worker:
             worker.shutdown()
+        sys.exit(1)

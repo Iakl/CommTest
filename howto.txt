@@ -1,0 +1,16 @@
+ 1. Start your nodes
+python distributed_worker_rest.py node1 5001
+
+# 2. Connect (in new terminal)
+python connect_nodes.py node1 5001
+
+
+# Basic usage (defaults to port 5000)
+python connect_nodes.py node1
+
+# With custom port (your case)
+python connect_nodes.py node1 5001
+
+# For other nodes
+python connect_nodes.py node2 5002
+python connect_nodes.py node3 5003
