@@ -7,8 +7,11 @@ NNODES = 3
 
 def compute_average(self_consumption, average_estimations):
 
-    average = (self_consumption + sum(average_estimations)) / \
-        (len(average_estimations) + 1)
+    self_weight = (NNODES - len(average_estimations)) / NNODES
+    other_weight = 1 / NNODES
+
+    average = self_weight*self_consumption + \
+        other_weight * sum(average_estimations)
 
     return average
 

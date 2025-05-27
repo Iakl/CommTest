@@ -1,1 +1,3 @@
-python node_logic.py node1 --port 5001 --peers node2 --sc 2.0
+1. configure addresses.json with the nodes names and IPs
+2. In each terminal, run:
+    python node_logic.py node1 --port 5001 --peers node2 --sc 2.0
